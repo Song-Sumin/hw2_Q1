@@ -18,7 +18,8 @@ and if you want an explanation of the code, scroll down below.
 ![image](https://github.com/user-attachments/assets/6d1d1e3d-eff9-42f1-a719-32c5ae6ca80b)
 
 3. Open hw2_Q1-master. Double click hw2_Q1-master and opne OpenglViewer.sln
-![image](https://github.com/user-attachments/assets/a8c3a769-00e4-47e4-9e46-2a08c8ce52a4)
+![image](https://github.com/user-attachments/assets/7c0ca433-d940-42fd-a2a3-3893344c0344)
+
 
 4. click "F5" on your keybord. Then you will get the result.
 ![image](https://github.com/user-attachments/assets/559d3c38-31c0-4d00-82d8-61836b1e78ec)
