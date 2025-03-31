@@ -25,7 +25,54 @@ and if you want an explanation of the code, scroll down below.
 ![image](https://github.com/user-attachments/assets/559d3c38-31c0-4d00-82d8-61836b1e78ec)
 
 ## Code explanation
-'''ruby
+```
 vec3 lightPos(-4.0f, 4.0f, -3.0f);
 vec3 lightColor(1.0f, 1.0f, 1.0f);
-'''
+```
+Set position of the light and color white.
+
+-----------
+```
+	vec3 ka, kd, ks;
+	float specularPower;
+	virtual vec3 getNormal(const vec3& point) const = 0;
+```
+In class surface, declare vectors representing the material properties of an object:
+
+ka: Ambient coefficient. This defines how much ambient light the material reflects.
+
+kd: Diffuse coefficient. This defines how much diffuse light the material reflects.
+
+ks: Specular coefficient. This defines how much specular light the material reflects.
+
+specularPower define shininess of the specular hightlight.
+
+get normal function return normal vector at that point.
+![image](https://github.com/user-attachments/assets/81aa8f94-b64b-40e4-8832-9a341ba54165)
+
+--------------
+```
+vec3 getNormal(const vec3& point) const override {
+	return normalize(point - center);
+}
+Sphere(const vec3& c, float r, const vec3& ka, const vec3& kd, const vec3& ks, float specularPower)
+	: center(c), radius(r) {
+	this->ka = ka;
+	this->kd = kd;
+	this->ks = ks;
+	this->specularPower = specularPower;
+}
+```
+In Sphere and Plane class, overridden virtual funtion getNormal.
+
+Read Ka, Kd, Ks and specularPower value
+
+-------------
+In Scene.trace funtion, 
+```
+if (hit_surface) {
+	vec3 hitPoint = ray.origin + closest_t * ray.direction;
+	vec3 normal = hit_surface->getNormal(hitPoint);
+	return phongShading(ray, hitPoint, normal, *hit_surface);
+}
+```
