@@ -1,4 +1,4 @@
-# HW2_Q1 readme
+![image](https://github.com/user-attachments/assets/0eddfaa0-db04-4dff-986b-25328bf76921)# HW2_Q1 readme
 ## What you need
 You need Visual Studio 2022 and window 11 OS.
 
@@ -69,7 +69,7 @@ In Sphere and Plane class, overridden virtual funtion getNormal.
 Read Ka, Kd, Ks and specularPower value
 
 -------------
-In Scene.trace funtion, 
+In Scene.trace funtion, there is 'if' funtion. This code calculates the hit point and then computes the normal vector at that point to obtain the result of Phong shading.
 ```
 if (hit_surface) {
 	vec3 hitPoint = ray.origin + closest_t * ray.direction;
@@ -77,3 +77,87 @@ if (hit_surface) {
 	return phongShading(ray, hitPoint, normal, *hit_surface);
 }
 ```
+
+-------------
+### Important Idea. PhongShading funtion
+
+```
+vec3 phongShading(const Ray& ray, const vec3& hitPoint, const vec3& normal, const Surface& surface) const {
+	vec3 ambient = surface.ka;
+	vec3 lightDir = normalize(lightPos - hitPoint);
+	vec3 viewDir = normalize(ray.origin - hitPoint);
+	vec3 halfDir = normalize(lightDir + viewDir);
+
+	// Shadow check
+	Ray shadowRay;
+	shadowRay.origin = hitPoint + normal * 1e-4f;
+	shadowRay.direction = lightDir;
+	bool inShadow = false;
+	for (const auto& s : surfaces) {
+		float t;
+		if (s->intersect(shadowRay, 0.0f, length(lightPos - hitPoint), t)) {
+			inShadow = true;
+			break;
+		}
+	}
+
+	vec3 diffuse(0.0f);
+	vec3 specular(0.0f);
+	if (!inShadow) {
+		diffuse = surface.kd * std::max(dot(normal, lightDir), 0.0f);
+		specular = surface.ks * pow(std::max(dot(normal, halfDir), 0.0f), surface.specularPower);
+	}
+
+	return ambient + diffuse + specular;
+}
+```
+
+We have to implement code based on the picture below.
+
+![image](https://github.com/user-attachments/assets/2cdfa6ff-92ea-4b94-b4d4-a69b7c7b5a4b)
+
+"return ambient + diffuse + specular;" final code represent this picture.
+
+Each variable explanation is here.
+
+1. ambient
+
+ambient get surface.ka value.
+
+
+2. diffuse
+
+Diffuse is calculated using the dot product of the lightDir and normal vectors.
+
+![image](https://github.com/user-attachments/assets/6e8f5e36-fe64-4573-8a34-2919fc81b26c)
+
+
+3. specular
+
+Specular is calculated using the dot product of the halfDir and normal vectors.
+
+Half vector is calculated by averaging the lightDir and viewDir vectors, and then normalizing it.
+
+![image](https://github.com/user-attachments/assets/4487e1c1-0ea7-48a8-979e-1575da8fe3f9)
+
+End of three bariable explanation.
+
+Next we can see shadowRay.
+
+Because of shadow rounding errors, we set shadowRay.origin = hitPoint + normal * 1e-4f
+
+and we can check shadow clearly.
+
+---------------------------
+The code can be implemented according to the conditions shown in the image as follows.
+
+![image](https://github.com/user-attachments/assets/10b0910a-7215-4ee4-9835-1206343c09c7)
+
+```
+scene.surfaces.push_back(new Plane(vec3(0.0f, -2.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f), vec3(0.2f, 0.2f, 0.2f), vec3(1.0f, 1.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), 0.0f)); // Plane P
+scene.surfaces.push_back(new Sphere(vec3(-4.0f, 0.0f, -7.0f), 1.0f, vec3(0.2f, 0.0f, 0.0f), vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f), 0.0f)); // Sphere S1
+scene.surfaces.push_back(new Sphere(vec3(0.0f, 0.0f, -7.0f), 2.0f, vec3(0.0f, 0.2f, 0.0f), vec3(0.0f, 0.5f, 0.0f), vec3(0.5f, 0.5f, 0.5f), 32.0f)); // Sphere S2
+scene.surfaces.push_back(new Sphere(vec3(4.0f, 0.0f, -7.0f), 1.0f, vec3(0.0f, 0.0f, 0.2f), vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 0.0f, 0.0f), 0.0f)); // Sphere S3
+```
+--------------
+The rest code is same as hw1.
