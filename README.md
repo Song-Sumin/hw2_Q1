@@ -48,6 +48,7 @@ ks: Specular coefficient. This defines how much specular light the material refl
 specularPower define shininess of the specular hightlight.
 
 get normal function return normal vector at that point.
+
 ![image](https://github.com/user-attachments/assets/81aa8f94-b64b-40e4-8832-9a341ba54165)
 
 --------------
