@@ -1,4 +1,4 @@
-# HW2 readme
+# HW2_Q1 readme
 ## What you need
 You need Visual Studio 2022 and window 11 OS.
 
@@ -25,3 +25,7 @@ and if you want an explanation of the code, scroll down below.
 ![image](https://github.com/user-attachments/assets/559d3c38-31c0-4d00-82d8-61836b1e78ec)
 
 ## Code explanation
+'''ruby
+vec3 lightPos(-4.0f, 4.0f, -3.0f);
+vec3 lightColor(1.0f, 1.0f, 1.0f);
+'''
