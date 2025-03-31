@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/0eddfaa0-db04-4dff-986b-25328bf76921)# HW2_Q1 readme
+# HW2_Q1 readme
 ## What you need
 You need Visual Studio 2022 and window 11 OS.
 
