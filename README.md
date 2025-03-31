@@ -120,19 +120,19 @@ We have to implement code based on the picture below.
 
 Each variable explanation is here.
 
-1. ambient
+**1. ambient**
 
 ambient get surface.ka value.
 
 
-2. diffuse
+**2. diffuse**
 
 Diffuse is calculated using the dot product of the lightDir and normal vectors.
 
 ![image](https://github.com/user-attachments/assets/6e8f5e36-fe64-4573-8a34-2919fc81b26c)
 
 
-3. specular
+**3. specular**
 
 Specular is calculated using the dot product of the halfDir and normal vectors.
 
